@@ -6,7 +6,7 @@
 	<artifactId>biblivre-4</artifactId>
 	<packaging>war</packaging>
 
-	<name>Biblivre4</name>
+	<name>Biblivre</name>
 	<version>5.0.5</version>
 	<url>http://www.biblivre.org.br</url>
 
@@ -44,6 +44,20 @@
 			<groupId>javax.servlet</groupId>
 			<artifactId>jstl</artifactId>
 			<version>1.2</version>
+		</dependency>
+
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>servlet-api</artifactId>
+			<version>2.5</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>jsp-api</artifactId>
+			<version>2.0</version>
+			<scope>provided</scope>
 		</dependency>
 
 		<dependency>
@@ -105,39 +119,26 @@
 			<artifactId>commons-logging</artifactId>
 			<version>1.1.1</version>
 		</dependency>
-	
+
 		<dependency>
 			<groupId>joda-time</groupId>
 			<artifactId>joda-time</artifactId>
 			<version>2.2</version>
 		</dependency>
 
-		<!-- dependency>
-			<groupId>org.json</groupId>
-			<artifactId>json</artifactId>
-			<version>20090211</version>
-		</dependency -->
+		<!-- dependency> <groupId>org.json</groupId> <artifactId>json</artifactId> 
+			<version>20090211</version> </dependency -->
 
 		<dependency>
-			<groupId>postgresql</groupId>
+			<groupId>org.postgresql</groupId>
 			<artifactId>postgresql</artifactId>
-			<version>9.1-901.jdbc4</version>
-			<scope>provided</scope>
+			<version>9.4.1212</version>
 		</dependency>
 
-		<!--dependency>
-			<groupId>commons-dbcp</groupId>
-			<artifactId>commons-dbcp</artifactId>
-			<version>1.4</version>
-			<scope>provided</scope>
-		</dependency>
-		
-		<dependency>
-			<groupId>org.apache.tomcat</groupId>
-			<artifactId>tomcat-dbcp</artifactId>
-			<version>7.0.53</version>
-			<scope>provided</scope>
-		</dependency-->
+		<!--dependency> <groupId>commons-dbcp</groupId> <artifactId>commons-dbcp</artifactId> 
+			<version>1.4</version> <scope>provided</scope> </dependency> <dependency> 
+			<groupId>org.apache.tomcat</groupId> <artifactId>tomcat-dbcp</artifactId> 
+			<version>7.0.53</version> <scope>provided</scope> </dependency -->
 
 		<!-- Local libraries, must use mvn:install first -->
 		<dependency>
@@ -145,11 +146,55 @@
 			<artifactId>marc4j</artifactId>
 			<version>2.5.1.beta</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>com.ibm.icu</groupId>
 			<artifactId>normalizer</artifactId>
 			<version>2.6</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.jzkit</groupId>
+			<artifactId>jzkit2_core</artifactId>
+			<version>2.2.3</version>
+			<exclusions>
+				<exclusion>
+					<artifactId>marc4j</artifactId>
+					<groupId>marc4j</groupId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context</artifactId>
+			<version>2.5.6</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.lowagie</groupId>
+			<artifactId>itext</artifactId>
+			<version>4.2.1</version>
+		</dependency>
+
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+			<version>1.2.15</version>
+			<exclusions>
+				<exclusion>
+					<groupId>com.sun.jmx</groupId>
+					<artifactId>jmxri</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>com.sun.jdmk</groupId>
+					<artifactId>jmxtools</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>javax.jms</groupId>
+					<artifactId>jms</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 
 		<!-- z39.50 -->
@@ -180,13 +225,13 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
-				
+
 		<dependency>
 			<groupId>com.googlecode.juniversalchardet</groupId>
 			<artifactId>juniversalchardet</artifactId>
 			<version>1.0.3</version>
 		</dependency>
-		
+
 		<!-- ObjectLab Kit for business days calculations -->
 		<dependency>
 			<groupId>net.objectlab.kit</groupId>
@@ -220,7 +265,7 @@
 	</dependencies>
 
 	<build>
-		<finalName>Biblivre4</finalName>
+		<finalName>Biblivre</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -231,7 +276,7 @@
 					<target>${jdk.version}</target>
 					<debug>${debug}</debug>
 					<optimize>!${debug}</optimize>
-					<verbose>${debug}</verbose>				
+					<verbose>${debug}</verbose>
 					<showWarnings>${debug}</showWarnings>
 					<showDeprecation>${debug}</showDeprecation>
 				</configuration>
@@ -263,7 +308,7 @@
 							</includes>
 						</resource>
 					</webResources>
-				</configuration>				
+				</configuration>
 			</plugin>
 
 			<plugin>
@@ -273,18 +318,13 @@
 				<configuration>
 					<server>Biblivre Alpha</server>
 					<url>http://192.168.2.3:8080/manager/text</url>
-					<path>/Biblivre4</path>
+					<path>/Biblivre</path>
 				</configuration>
 			</plugin>
 
-			<!--plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-surefire-plugin</artifactId>
-				<version>2.12</version>
-				<configuration>
-					<skipTests>true</skipTests>
-				</configuration>
-			</plugin-->
+			<!--plugin> <groupId>org.apache.maven.plugins</groupId> <artifactId>maven-surefire-plugin</artifactId> 
+				<version>2.12</version> <configuration> <skipTests>true</skipTests> </configuration> 
+				</plugin -->
 
 			<plugin>
 				<groupId>org.jasig.maven</groupId>
@@ -295,7 +335,7 @@
 						<always_update>true</always_update>
 						<style>${sass.OutputStyle}</style>
 						<debug_info>${debug}</debug_info>
-					</sassOptions>	
+					</sassOptions>
 					<useCompass>true</useCompass>
 					<resources>
 						<resource>
@@ -308,11 +348,11 @@
 							</source>
 							<destination>${basedir}/WebContent/static/styles</destination>
 						</resource>
-					</resources>							
+					</resources>
 				</configuration>
 			</plugin>
 		</plugins>
-		
+
 		<pluginManagement>
 			<plugins>
 				<plugin>
@@ -340,6 +380,6 @@
 					</configuration>
 				</plugin>
 			</plugins>
-		</pluginManagement>		
+		</pluginManagement>
 	</build>
 </project>
